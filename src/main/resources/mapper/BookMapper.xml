@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.nuc.dao.BookMapper" >
+  <resultMap id="BaseResultMap" type="edu.nuc.entity.Book" >
+    <id column="bookId" property="bookid" jdbcType="INTEGER" />
+    <result column="bookName" property="bookname" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="press" property="press" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="contentUrl" property="contenturl" jdbcType="VARCHAR" />
+    <result column="pictureUrl" property="pictureurl" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="bookType" property="booktype" jdbcType="INTEGER" />
+    <result column="isEntity" property="isentity" jdbcType="VARCHAR" />
+    <result column="commentNo" property="commentno" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bookId, bookName, author, press, description, contentUrl, pictureUrl, createTime, 
+    status, bookType, isEntity, commentNo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="edu.nuc.entity.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where bookId = #{bookid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from book
+    where bookId = #{bookid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.nuc.entity.BookExample" >
+    delete from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.nuc.entity.Book" >
+    insert into book (bookId, bookName, author, 
+      press, description, contentUrl, 
+      pictureUrl, createTime, status, 
+      bookType, isEntity, commentNo
+      )
+    values (#{bookid,jdbcType=INTEGER}, #{bookname,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{press,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{contenturl,jdbcType=VARCHAR}, 
+      #{pictureurl,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, #{status,jdbcType=INTEGER}, 
+      #{booktype,jdbcType=INTEGER}, #{isentity,jdbcType=VARCHAR}, #{commentno,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="edu.nuc.entity.Book" >
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        bookId,
+      </if>
+      <if test="bookname != null" >
+        bookName,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="press != null" >
+        press,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="contenturl != null" >
+        contentUrl,
+      </if>
+      <if test="pictureurl != null" >
+        pictureUrl,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="booktype != null" >
+        bookType,
+      </if>
+      <if test="isentity != null" >
+        isEntity,
+      </if>
+      <if test="commentno != null" >
+        commentNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="bookname != null" >
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contenturl != null" >
+        #{contenturl,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureurl != null" >
+        #{pictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="booktype != null" >
+        #{booktype,jdbcType=INTEGER},
+      </if>
+      <if test="isentity != null" >
+        #{isentity,jdbcType=VARCHAR},
+      </if>
+      <if test="commentno != null" >
+        #{commentno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.nuc.entity.BookExample" resultType="java.lang.Integer" >
+    select count(*) from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update book
+    <set >
+      <if test="record.bookid != null" >
+        bookId = #{record.bookid,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookname != null" >
+        bookName = #{record.bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.press != null" >
+        press = #{record.press,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contenturl != null" >
+        contentUrl = #{record.contenturl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictureurl != null" >
+        pictureUrl = #{record.pictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.booktype != null" >
+        bookType = #{record.booktype,jdbcType=INTEGER},
+      </if>
+      <if test="record.isentity != null" >
+        isEntity = #{record.isentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentno != null" >
+        commentNo = #{record.commentno,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update book
+    set bookId = #{record.bookid,jdbcType=INTEGER},
+      bookName = #{record.bookname,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      press = #{record.press,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      contentUrl = #{record.contenturl,jdbcType=VARCHAR},
+      pictureUrl = #{record.pictureurl,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=DATE},
+      status = #{record.status,jdbcType=INTEGER},
+      bookType = #{record.booktype,jdbcType=INTEGER},
+      isEntity = #{record.isentity,jdbcType=VARCHAR},
+      commentNo = #{record.commentno,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.nuc.entity.Book" >
+    update book
+    <set >
+      <if test="bookname != null" >
+        bookName = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        press = #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contenturl != null" >
+        contentUrl = #{contenturl,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureurl != null" >
+        pictureUrl = #{pictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="booktype != null" >
+        bookType = #{booktype,jdbcType=INTEGER},
+      </if>
+      <if test="isentity != null" >
+        isEntity = #{isentity,jdbcType=VARCHAR},
+      </if>
+      <if test="commentno != null" >
+        commentNo = #{commentno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bookId = #{bookid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.nuc.entity.Book" >
+    update book
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      press = #{press,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      contentUrl = #{contenturl,jdbcType=VARCHAR},
+      pictureUrl = #{pictureurl,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER},
+      bookType = #{booktype,jdbcType=INTEGER},
+      isEntity = #{isentity,jdbcType=VARCHAR},
+      commentNo = #{commentno,jdbcType=INTEGER}
+    where bookId = #{bookid,jdbcType=INTEGER}
+  </update>
+</mapper>

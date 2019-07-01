@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.nuc.dao.UsercommentMapper" >
+  <resultMap id="BaseResultMap" type="edu.nuc.entity.Usercomment" >
+    <id column="commentId" property="commentid" jdbcType="INTEGER" />
+    <result column="bookId" property="bookid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="topic" property="topic" jdbcType="VARCHAR" />
+    <result column="clientCount" property="clientcount" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="userType" property="usertype" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="edu.nuc.entity.Usercomment" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    commentId, bookId, userId, topic, clientCount, createTime, status, userType
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="edu.nuc.entity.UsercommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usercomment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="edu.nuc.entity.UsercommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from usercomment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usercomment
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from usercomment
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.nuc.entity.UsercommentExample" >
+    delete from usercomment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.nuc.entity.Usercomment" >
+    insert into usercomment (commentId, bookId, userId, 
+      topic, clientCount, createTime, 
+      status, userType, content
+      )
+    values (#{commentid,jdbcType=INTEGER}, #{bookid,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, 
+      #{topic,jdbcType=VARCHAR}, #{clientcount,jdbcType=INTEGER}, #{createtime,jdbcType=DATE}, 
+      #{status,jdbcType=INTEGER}, #{usertype,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="edu.nuc.entity.Usercomment" >
+    insert into usercomment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        commentId,
+      </if>
+      <if test="bookid != null" >
+        bookId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="topic != null" >
+        topic,
+      </if>
+      <if test="clientcount != null" >
+        clientCount,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="usertype != null" >
+        userType,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        #{commentid,jdbcType=INTEGER},
+      </if>
+      <if test="bookid != null" >
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null" >
+        #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="clientcount != null" >
+        #{clientcount,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.nuc.entity.UsercommentExample" resultType="java.lang.Integer" >
+    select count(*) from usercomment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update usercomment
+    <set >
+      <if test="record.commentid != null" >
+        commentId = #{record.commentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookid != null" >
+        bookId = #{record.bookid,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topic != null" >
+        topic = #{record.topic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientcount != null" >
+        clientCount = #{record.clientcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.usertype != null" >
+        userType = #{record.usertype,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update usercomment
+    set commentId = #{record.commentid,jdbcType=INTEGER},
+      bookId = #{record.bookid,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      topic = #{record.topic,jdbcType=VARCHAR},
+      clientCount = #{record.clientcount,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=DATE},
+      status = #{record.status,jdbcType=INTEGER},
+      userType = #{record.usertype,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update usercomment
+    set commentId = #{record.commentid,jdbcType=INTEGER},
+      bookId = #{record.bookid,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      topic = #{record.topic,jdbcType=VARCHAR},
+      clientCount = #{record.clientcount,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=DATE},
+      status = #{record.status,jdbcType=INTEGER},
+      userType = #{record.usertype,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.nuc.entity.Usercomment" >
+    update usercomment
+    <set >
+      <if test="bookid != null" >
+        bookId = #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null" >
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="clientcount != null" >
+        clientCount = #{clientcount,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="usertype != null" >
+        userType = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.nuc.entity.Usercomment" >
+    update usercomment
+    set bookId = #{bookid,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=VARCHAR},
+      topic = #{topic,jdbcType=VARCHAR},
+      clientCount = #{clientcount,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER},
+      userType = #{usertype,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.nuc.entity.Usercomment" >
+    update usercomment
+    set bookId = #{bookid,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=VARCHAR},
+      topic = #{topic,jdbcType=VARCHAR},
+      clientCount = #{clientcount,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER},
+      userType = #{usertype,jdbcType=INTEGER}
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </update>
+</mapper>

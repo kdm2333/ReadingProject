@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.nuc.dao.CommentVoDao" >
+  <resultMap id="BaseResultMap" type="edu.nuc.entity.CommentVO" >
+    <id column="commentId" property="commentid" jdbcType="INTEGER" />
+    <result column="bookId" property="bookid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="topic" property="topic" jdbcType="VARCHAR" />
+    <result column="clientCount" property="clientcount" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="userType" property="usertype" jdbcType="INTEGER" />
+
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="bookName" property="bookname" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="edu.nuc.entity.Usercomment" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <select id="selectTeacherByBookId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select  c.* , b.bookName , u.userName
+        from  book  b,
+              user u,
+              usercomment c
+        where b.bookId = c.bookId
+          AND u.userId = c.userId
+          AND b.bookId = #{bookId}
+          AND c.status = 1
+          AND c.userType = 2
+     order by c.createTime DESC
+  </select>
+
+    <select id="selectStudentByBookId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select  c.* , b.bookName , u.userName
+        from  book  b,
+              user u,
+              usercomment c
+        where b.bookId = c.bookId
+          AND u.userId = c.userId
+          AND b.bookId = #{bookId}
+          AND c.status = 1
+          AND c.userType = 1
+     order by c.createTime DESC
+  </select>
+
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select  c.* , b.bookName , u.userName
+        from  book  b,
+              user u,
+              usercomment c
+        where b.bookId = c.bookId
+          AND u.userId = c.userId
+          AND c.userId = #{userId}
+          AND c.status = 1
+     order by c.createTime DESC
+  </select>
+
+
+    <select id="selectTeacherComment" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select  c.* , b.bookName , u.userName
+        from  book  b,
+        user u,
+        usercomment c
+        where b.bookId = c.bookId
+        AND u.userId = c.userId
+        AND c.status = 1
+        AND c.userType = 2
+        order by c.createTime DESC
+    </select>
+
+    <select id="selectStudentComment" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select  c.* , b.bookName , u.userName
+        from  book  b,
+        user u,
+        usercomment c
+        where b.bookId = c.bookId
+        AND u.userId = c.userId
+        AND c.status = 1
+        AND c.userType = 1
+        order by c.createTime DESC
+    </select>
+
+
+
+    <select id="selectByCommentSearch" parameterType="edu.nuc.untils.CommentSearch" resultMap="BaseResultMap">
+        select  c.* , b.bookName , u.userName
+        from  book  b,
+        user u,
+        usercomment c
+        where b.bookId = c.bookId
+        AND u.userId = c.userId
+        <if test="bookid != null and bookid != ''">
+            AND c.bookid = #{bookid,jdbcType=INTEGER}
+        </if>
+        <if test="userid != null and userid != ''">
+            AND c.userid = #{userid,jdbcType=VARCHAR}
+        </if>
+        <if test="topic != null and topic != ''">
+            AND c.topic LIKE "%"#{topic,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="createtime != null and createtime != ''">
+            AND c.createtime = #{createtime,jdbcType=DATE}
+        </if>
+        <if test="status != null and status != '' and status != 0">
+            AND c.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="usertype != null and usertype != '' and usertype != 0">
+            AND c.usertype = #{usertype,jdbcType=INTEGER}
+        </if>
+        <if test="username != null and username != ''">
+            AND u.username LIKE "%"#{username,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="bookname != null and bookname != ''">
+            AND b.bookname LIKE "%"#{bookname,jdbcType=VARCHAR}"%"
+        </if>
+        order by c.createTime DESC
+    </select>
+
+</mapper>

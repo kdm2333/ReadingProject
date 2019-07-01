@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<settings>
+	<setting name="logImpl" value="STDOUT_LOGGING"/>
+ 	<setting name="mapUnderscoreToCamelCase" value="true"/>
+ 	<setting name="lazyLoadingEnabled" value="true" />
+ 	<setting name="aggressiveLazyLoading"  value="false" />
+ 	<setting name="cacheEnabled" value="true"/>
+</settings>
+<!-- pagehelper 分页插件 -->
+<!--<plugins>
+	<plugin interceptor="com.github.pagehelper.PageInterceptor">
+		&lt;!&ndash; 配置参数 &ndash;&gt;
+		<property name="reasonable" value="true"/>&lt;!&ndash;
+		<property name="dialect" value="mysql"/>&ndash;&gt;
+	</plugin>
+</plugins>-->
+</configuration>
